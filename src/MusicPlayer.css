@@ -79,7 +79,7 @@
     bottom: 55px; /* Positioned above ControlsHint */
     left: 50%;
     right: auto; /* Override desktop right positioning */
-    transform: translateX(-50%) translateY(0); /* Center horizontally, initial Y state */
+    transform: translateX(-50%) translateY(-20px); /* Center horizontally, initial Y state */
     width: fit-content; /* Adjust width to content */
     /* Inherits padding, background etc. from base, which is fine */
   }
