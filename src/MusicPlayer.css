@@ -71,4 +71,27 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100px; /* Adjusted max width */
+}
+
+/* Mobile Responsive Styles for Music Player */
+@media screen and (max-width: 768px) {
+  .music-player-container {
+    bottom: 55px; /* Positioned above ControlsHint */
+    left: 50%;
+    right: auto; /* Override desktop right positioning */
+    transform: translateX(-50%) translateY(0); /* Center horizontally, initial Y state */
+    width: fit-content; /* Adjust width to content */
+    /* Inherits padding, background etc. from base, which is fine */
+  }
+
+  .music-player-container:hover {
+    /* Adjust hover to combine centering with Y lift */
+    transform: translateX(-50%) translateY(-30px);
+    /* Background and box-shadow hover effects from base are fine */
+  }
+
+  .song-info {
+    max-width: 80px; /* Further restrict song info width on small screens if needed */
+    font-size: 12px;
+  }
 } 

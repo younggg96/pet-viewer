@@ -112,11 +112,19 @@
 @media screen and (max-width: 768px) {
   .controls-hint {
     bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: fit-content;
+    max-width: 90%;
     padding: 8px 15px;
     font-size: 0.8rem;
-    width: 90%;
-    max-width: 300px;
     text-align: center;
+  }
+
+  .controls-hint:hover {
+    /* Ensure hover transform is consistent for mobile if any specific needed */
+    /* The base hover is fine if not overridden here */
+    /* transform: translateX(-50%) translateY(-2px); /* If combining centering and hover lift */
   }
 
   .controls-hint p {
@@ -145,7 +153,7 @@
   }
 
   .controls-hint:hover {
-    transform: translateX(-50%);
+    transform: translateY(-2px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 }

@@ -98,8 +98,6 @@ export default function App() {
         onNext={handleNextPet}
         currentPetName={currentPet.name}
       />
-
-      <MusicPlayer />
       <Canvas shadows camera={{ position: [0, 1.5, 5], fov: 60 }}>
         <color attach="background" args={["#1a1a2e"]} />
         <fog attach="fog" args={["#1a1a2e", 5, 20]} />
@@ -143,6 +141,7 @@ export default function App() {
           <Scene currentPet={currentPet} />
         </Suspense>
       </Canvas>
+      <MusicPlayer />
       <ControlsHint />
     </div>
   );
