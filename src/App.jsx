@@ -1,42 +1,116 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, Html, Stars } from "@react-three/drei";
+import {
+  OrbitControls,
+  Environment,
+  Html,
+  Stars,
+  useGLTF,
+} from "@react-three/drei";
 import PetModel from "./PetModel";
+import MusicPlayer from "./MusicPlayer";
+import ControlsHint from "./ControlsHint";
+import ShootingStars from "./ShootingStars";
+import PetSwitcher from "./PetSwitcher";
 import "./App.css";
+
+const pets = [
+  {
+    id: "bobi",
+    name: "Bobi",
+    modelPath: "/models/corgi.glb",
+    imgPath: "/pic/bobi.png",
+    info: ["🐾 Loves belly rubs & treats", "💤 Expert at napping"],
+    scale: 2.5,
+    positionY: -0.5,
+  },
+  {
+    id: "molly",
+    name: "Molly",
+    modelPath: "/models/cat.glb",
+    imgPath: "/pic/molly.png",
+    info: ["🐄 Likes milk and meowing", "🖤🤍 Black and white beauty"],
+    scale: 1.5,
+    positionY: -0.5,
+  },
+  {
+    id: "mochi",
+    name: "Mochi",
+    modelPath: "/models/mochi.glb",
+    imgPath: "/pic/mochi.png",
+    info: ["mochi is a lovely cat"],
+    scale: 1.5,
+    positionY: -0.5,
+  },
+];
+
+// Preload all pet models
+pets.forEach((pet) => {
+  try {
+    useGLTF.preload(pet.modelPath);
+  } catch (e) {
+    console.warn(`Failed to preload model: ${pet.modelPath}`, e);
+  }
+});
 
 function Floor() {
   return (
-    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.05, 0]}>
-      <planeGeometry args={[2, 2]} />
+    <mesh
+      receiveShadow
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, -1.05, 0]}
+    >
+      <planeGeometry args={[20, 20]} />
       <meshStandardMaterial color="#303045" roughness={0.8} metalness={0.2} />
     </mesh>
   );
 }
 
 // Scene component to separate suspense content
-function Scene() {
+function Scene({ currentPet }) {
   return (
     <>
-      <PetModel />
-      <Floor />
+      <PetModel petData={currentPet} />
+      <ShootingStars />
     </>
   );
 }
 
 export default function App() {
+  const [currentPetIndex, setCurrentPetIndex] = useState(0);
+
+  const handleNextPet = () => {
+    setCurrentPetIndex((prevIndex) => (prevIndex + 1) % pets.length);
+  };
+
+  const handlePrevPet = () => {
+    setCurrentPetIndex(
+      (prevIndex) => (prevIndex - 1 + pets.length) % pets.length
+    );
+  };
+
+  const currentPet = pets[currentPetIndex];
+
   return (
     <div className="app-container">
+      <PetSwitcher
+        onPrev={handlePrevPet}
+        onNext={handleNextPet}
+        currentPetName={currentPet.name}
+      />
+
+      <MusicPlayer />
       <Canvas shadows camera={{ position: [0, 1.5, 5], fov: 60 }}>
         <color attach="background" args={["#1a1a2e"]} />
         <fog attach="fog" args={["#1a1a2e", 5, 20]} />
-        <Stars 
-          radius={100} 
-          depth={50} 
-          count={5000} 
-          factor={4} 
-          saturation={0} 
-          fade 
-          speed={1}
+        <Stars
+          radius={100}
+          depth={60}
+          count={5000}
+          factor={5}
+          saturation={0}
+          fade
+          speed={2}
         />
         <ambientLight intensity={0.4} />
         <directionalLight
@@ -52,11 +126,12 @@ export default function App() {
           shadow-camera-bottom={-10}
         />
         <Environment preset="sunset" />
-        <OrbitControls 
-          enableDamping 
+        <OrbitControls
+          enableDamping
           dampingFactor={0.05}
           minDistance={3}
           maxDistance={10}
+          target={[0, currentPet.positionY + 0.5, 0]}
         />
         <Suspense
           fallback={
@@ -65,12 +140,10 @@ export default function App() {
             </Html>
           }
         >
-          <Scene />
+          <Scene currentPet={currentPet} />
         </Suspense>
       </Canvas>
-      <div className="controls-hint">
-        <p>Use mouse to rotate • Scroll to zoom • Right-click to pan</p>
-      </div>
+      <ControlsHint />
     </div>
   );
 }
