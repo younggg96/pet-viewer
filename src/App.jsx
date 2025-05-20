@@ -17,11 +17,11 @@ import "./App.css";
 const pets = [
   {
     id: "bobi",
-    name: "Bobi",
+    name: "Bobi the Corgi",
     modelPath: "/models/corgi.glb",
     imgPath: "/pic/bobi.png",
     info: ["🐾 Loves belly rubs & treats", "💤 Expert at napping"],
-    scale: 2.5,
+    scale: 2,
     positionY: -0.5,
   },
   {
@@ -30,18 +30,27 @@ const pets = [
     modelPath: "/models/cat.glb",
     imgPath: "/pic/molly.png",
     info: ["🐄 Likes milk and meowing", "🖤🤍 Black and white beauty"],
-    scale: 1.5,
-    positionY: -0.5,
+    scale: 1.2,
+    positionY: -0.7,
   },
   {
     id: "mochi",
     name: "Mochi",
     modelPath: "/models/mochi.glb",
     imgPath: "/pic/mochi.png",
-    info: ["mochi is a lovely cat"],
+    info: ["🐰 Fluffy and energetic", "🥕 Loves carrots"],
     scale: 1.5,
-    positionY: -0.5,
+    positionY: -0.6,
   },
+  {
+    id: "me",
+    name: "Me",
+    modelPath: "/models/me.glb",
+    imgPath: "/pic/me.png",
+    info: ["🧑‍💻 Loves coding & pets!", "✨ Dreamer & Creator"],
+    scale: 1.0,
+    positionY: -0.8,
+  }
 ];
 
 // Preload all pet models
